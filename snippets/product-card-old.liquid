@@ -1,0 +1,57 @@
+{{ 'product-card.css' | asset_url | stylesheet_tag }}
+<product-card class="product-card">
+  <script type="application/json">
+    {{ product.variants | json }}
+  </script>
+
+  <div class="product-card__image">
+    <a href="{{ product.url | within: collection }}">
+      <img src="{{ product.featured_image | img_url: '200x340' }}" alt="{{product.featured_image.alt}}">
+    </a>
+  </div>
+  <div class="product-card__content">
+    <div class="product-card__title">
+      <h3>{{ product.title }}</h3>
+    </div>
+    <div class="product-card__description">
+      <p>{{ product.description }}</p>
+    </div>
+    <div class="product-card__price">
+      {% render 'price', product: product, price_class: '', show_compare_at_price: true %}
+    </div>
+    <div class="product-card__form">
+      {% unless product.options.size == 1 and product.variants[0].title == 'Default Title' %}
+        {% for option in product.options_with_values %}
+          <div class="product-card__form-variants">
+            <div class="product-card__form-option">
+              <label for="product-select-option-{{ forloop.index0 }}">
+                {{ option.name }}
+              </label>
+              <select id="product-select-option-{{ forloop.index0 }}" name="options[{{ option.name | handleize }}]">
+                {% for value in option.values %}
+                  {% assign variant = product.variants | where: 'title', value %}
+                  <option value="{{ variant.id }}">
+                    {% if variant.available %}{{ value }}{% else %}{{ value }} - Sold Out{% endif %}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="product-card__form-quantity">
+              <label for="product-select-quantity-{{ forloop.index0 }}"> Quantity </label>
+              <input
+                type="number"
+                id="product-select-quantity-{{ forloop.index0 }}"
+                name="quantity"
+                value="1"
+                min="1"
+              >
+            </div>
+          </div>
+        {% endfor %}
+      {% endunless %}
+      <div class="product-card__form-add">
+        <button class="product-card__add-to-cart" type="submit" name="add" aria-label="Add to cart">Add to cart</button>
+      </div>
+    </div>
+  </div>
+</product-card>

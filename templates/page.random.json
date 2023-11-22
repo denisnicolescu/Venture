@@ -1,14 +1,25 @@
 {
-    "sections": {
-      "main": {
-        "type": "main-page",
-        "settings": {
-          "padding_top": 28,
-          "padding_bottom": 28
-        }
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
       }
     },
-    "order": [
-      "main"
-    ]
-  }
+    "b8a26954-0546-45dd-ae87-edac203f0722": {
+      "type": "random-product",
+      "settings": {
+        "color_scheme": "",
+        "collection": "collection",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    }
+  },
+  "order": [
+    "main",
+    "b8a26954-0546-45dd-ae87-edac203f0722"
+  ]
+}

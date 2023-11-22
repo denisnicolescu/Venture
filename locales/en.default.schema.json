@@ -1757,6 +1757,9 @@
     "main-collection-product-grid": {
       "name": "Product grid",
       "settings": {
+        "use_card_product": {
+          "label": "Use card product"
+        },
         "products_per_page": {
           "label": "Products per page"
         },

@@ -1,0 +1,79 @@
+<product-card class="product-card">
+  {% comment %} <script type="application/json">
+    {{ product.variants | json }}
+  </script> {% endcomment %}
+
+  <div class="product-card__image media media--transparent media--hover-effect">
+    <a href="{{ product.url | within: collection }}">
+      <img
+        srcset="
+          {%- if product.featured_media.width >= 165 -%}{{ product.featured_media | image_url: width: 165 }} 165w,{%- endif -%}
+          {%- if product.featured_media.width >= 360 -%}{{ product.featured_media | image_url: width: 360 }} 360w,{%- endif -%}
+          {%- if product.featured_media.width >= 533 -%}{{ product.featured_media | image_url: width: 533 }} 533w,{%- endif -%}
+          {%- if product.featured_media.width >= 720 -%}{{ product.featured_media | image_url: width: 720 }} 720w,{%- endif -%}
+          {%- if product.featured_media.width >= 940 -%}{{ product.featured_media | image_url: width: 940 }} 940w,{%- endif -%}
+          {%- if product.featured_media.width >= 1066 -%}{{ product.featured_media | image_url: width: 1066 }} 1066w,{%- endif -%}
+          {{ product.featured_media | image_url }} {{ product.featured_media.width }}w
+        "
+        src="{{ product.featured_media | image_url: width: 533 }}"
+        sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+        alt="{{ product.featured_media.alt | escape }}"
+        class="motion-reduce"
+        {% unless lazy_load == false %}
+          loading="lazy"
+        {% endunless %}
+        width="{{ product.featured_media.width }}"
+        height="{{ product.featured_media.height }}"
+      >
+    </a>
+  </div>
+  <div class="product-card__content">
+    <div class="product-card__title">
+      <h3>{{ product.title }}</h3>
+    </div>
+    <div class="product-card__description">
+      <p>{{ product.description }}</p>
+    </div>
+    <div class="product-card__price">
+      {% render 'price', product: product, price_class: '', show_compare_at_price: true %}
+    </div>
+    <div class="product-card__form">
+      <div class="product-card__form-wrapper">
+        <div class="product-card__form-variant">
+           <div class="select-wrapper"> 
+            <select name="variant" class="select">
+              {% if product.variants.size == 1 and product.variants.first.title == 'Default Title' %}
+                <option
+                  value="{{ product.variants.first.id }}"
+                  {% unless product.variants.first.available %}
+                    data-unavailable="true"
+                  {% endunless %}
+                >
+                  {{ product.title }}
+                </option>
+              {% else %}
+                {% for variant in product.variants %}
+                  <option
+                    value="{{ variant.id }}"
+                    {% unless variant.available %}
+                      data-unavailable="true"
+                    {% endunless %}
+                  >
+                    {{ variant.title }}
+                  </option>
+                {% endfor %}
+              {% endif %}
+            </select>
+            {% render 'icon-caret' %}
+          </div>
+        </div>
+        <div class="product-card__form-quantity">
+          <input type="number" name="quantity" value="1" min="1">
+        </div>
+      </div>
+      <div class="product-card__form-add">
+        <button class="product-card__add-to-cart" type="submit" name="add" aria-label="Add to cart">Add to cart</button>
+      </div>
+    </div>
+  </div>
+</product-card>
