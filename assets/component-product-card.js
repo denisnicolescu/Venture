@@ -10,6 +10,7 @@ if (typeof customElements.get('product-card') == 'undefined') {
 			this.addToCartButton = this.querySelector('.product-card__add-to-cart');
 			this.cart = document.querySelector('cart-notification') || document.querySelector('cart-drawer');
 			this.selectedVariants = {};
+			
 			this.init();
 		}		
 
